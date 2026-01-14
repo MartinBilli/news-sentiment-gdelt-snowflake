@@ -1,0 +1,6 @@
+pandas
+requests
+snowflake-connector-python
+tldextract
+tenacity
+python-dotenv
