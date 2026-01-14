@@ -9,6 +9,12 @@ on:
 jobs:
   run:
     runs-on: ubuntu-latest
+
+    # ➜ Všechny 'run' kroky se spouští v podsložce s projektovými soubory
+    defaults:
+      run:
+        working-directory: news-sentiment-gdelt-snowflake
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -17,6 +23,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Inspect workspace (diagnostika)
+        run: |
+          pwd
+          ls -la
+          ls -la .github || true
+          ls -la src || true
+          ls -la scripts || true
 
       - name: Install dependencies
         run: |
