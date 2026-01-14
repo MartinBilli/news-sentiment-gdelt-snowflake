@@ -1,5 +1,5 @@
 # news-sentiment-gdelt-snowflake
-
+Sber zprav v deleni na pozitivni a negativni v ramci EU
 Denní pipeline pro získání počtu **pozitivních/negativních** zpráv podle **zemí** z **GDELT GKG v2** a uložení agregací do **Snowflake**. Běží přes **GitHub Actions** (cron).
 
 ## Co dělá
