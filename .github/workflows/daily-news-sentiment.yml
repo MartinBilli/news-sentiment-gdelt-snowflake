@@ -1,0 +1,38 @@
+
+name: Daily News Sentiment
+
+on:
+  schedule:
+    - cron: "20 03 * * *"  # denně 03:20 CET
+  workflow_dispatch:
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Run pipeline
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+          SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+          SNOWFLAKE_DATABASE: ${{ secrets.SNOWFLAKE_DATABASE }}
+          SNOWFLAKE_SCHEMA_RAW: NEWS_RAW
+          SNOWFLAKE_SCHEMA_MART: NEWS_MART
+          SENTIMENT_POS_THRESHOLD: "0.2"
+          SENTIMENT_NEG_THRESHOLD: "-0.2"
+        run: |
+          python src/daily_pipeline_gkg.py
